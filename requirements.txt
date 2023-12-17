@@ -1,7 +1,9 @@
 # run 'pip3 install -r requirements.txt' from command line to import all packages
 
 alpaca-py
+lumibot
 matplotlib
+numpy
 pandas
 pandas-datareader
 quantstats
