@@ -4,9 +4,9 @@ from alpaca.trading.requests import MarketOrderRequest
 from alpaca.trading.stream import TradingStream
 import config
 
-client = TradingClient(config.API_KEY, config.SECRET_KEY, paper = True)
+# client = TradingClient(config.API_KEY, config.SECRET_KEY, paper = True)
 
-account = dict(client.get_account())
+# account = dict(client.get_account())
 
-for k,v in account.items():
-    print(f"{k:30}{v}")
+# for k,v in account.items():
+#     print(f"{k:30}{v}")
