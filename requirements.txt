@@ -1,3 +1,5 @@
+# run 'pip install -r requirements.txt' from command line to import all packages
+
 alpaca-py
 matplotlib
 pandas
