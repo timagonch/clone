@@ -4,6 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 import os
+import pickle
 
 # Define a mapping dictionary to handle discrepancies
 symbol_mapping = {
@@ -12,7 +13,7 @@ symbol_mapping = {
 }
 
 # Import the DataFrame from fetch_data.py
-sp500_symbols = pd.read_pickle('sp500_symbols.pkl')
+sp500_symbols = pd.read_pickle('/Users/lilygoncharov/Documents/Z/code/AI-Trading/pickle/sp500_symbols.pkl')
 
 # Calculate the start and end dates for the last week
 end_date = datetime.now()  # Current date

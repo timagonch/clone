@@ -1,5 +1,5 @@
 import pandas as pd
-import params as params
+import parameters.params as params
 
 # Import the DataFrame from fetch_data.py
 sp500_data = params.sp500_data
