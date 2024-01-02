@@ -1,7 +1,6 @@
+# Import Packages
 import yfinance as yf
 import pandas as pd
-import requests
-from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 import os
 
@@ -11,7 +10,7 @@ symbol_mapping = {
     'BF.B': 'BF-B',
 }
 
-# Import the DataFrame from fetch_data.py
+# Import the DataFrame from sp500_symbols pickle file
 sp500_symbols = pd.read_pickle('sp500_symbols.pkl')
 
 # Calculate the start and end dates for the last month
