@@ -47,3 +47,6 @@ macd = ta.trend.MACD(close=df['Close'], window_slow=26, window_fast=12, window_s
 df['MACD'] = macd.macd()
 df['MACD_Signal'] = macd.macd_signal()
 df['MACD_Diff'] = macd.macd_diff()
+
+# Pickle the DataFrame
+df.to_pickle('/Users/lilygoncharov/Documents/Z/code/AI-Trading/data_processing/df_with_indicators.pkl')
