@@ -1,4 +1,4 @@
-# run 'pip3 install -r requirements.txt' from command line to import all packages
+# run 'pip3 install -r ./setup/requirements.txt' from command line to import all packages
 
 alpaca-py
 alpaca_trade_api

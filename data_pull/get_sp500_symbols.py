@@ -22,5 +22,5 @@ for row in table.find_all('tr')[1:]:
     sp500_symbols.append(symbol)
 
 # Pickle the list of S&P 500 symbols
-with open('sp500_symbols.pkl', 'wb') as file:
+with open('./pickle/sp500_symbols.pkl', 'wb') as file:
     pickle.dump(sp500_symbols, file)

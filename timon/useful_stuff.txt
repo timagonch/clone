@@ -1,0 +1,9 @@
+# Run in bash to get updated verstion of repository:
+git fetch origin
+git merge origin/main
+
+type 'dir' to check the files within your current directory
+type 'cd' to navigate to your working directory
+to import ta type 'pip install ta'
+to import yfinance type 'pip install yfinance'
+to use from bs4 import BeautifulSoup tyoe 'pip install beautifulsoup4'
