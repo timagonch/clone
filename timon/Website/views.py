@@ -1,5 +1,8 @@
+import sys
+sys.path.append('./reports')
+
 from flask import Blueprint, render_template
-from reports.winner_looser import max_increase_stock, min_decrease_stock, max_increase_percentage, min_decrease_percentage
+from winner_looser import max_increase_stock, min_decrease_stock, max_increase_percentage, min_decrease_percentage
 
 
 views = Blueprint(__name__, "views")
