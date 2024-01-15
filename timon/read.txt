@@ -2,7 +2,4 @@ Hey bro, was trying different ways so we could both access files whenever we gen
 right now the best thing is to use relative pathing. Instead of writing :'/Users/lilygoncharov/Documents/Z/code/AI-Trading/pickle/weekly_sp500_data.pkl'
 just save it to './pickle/weekly_sp500_data.pkl', that way I just have to run the same code on my laptop and not change it. 
 This is definitely the easiest solution for our problem, because using cloud or googledrive looked to be a lot more complicated:)
-But we could look into it at some point again.
-
-
 
