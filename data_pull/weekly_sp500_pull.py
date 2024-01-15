@@ -13,7 +13,7 @@ symbol_mapping = {
 }
 
 # Import the DataFrame from fetch_data.py
-sp500_symbols = pd.read_pickle('/Users/lilygoncharov/Documents/Z/code/AI-Trading/pickle/sp500_symbols.pkl')
+sp500_symbols = pd.read_pickle('./pickle/sp500_symbols.pkl')
 
 # Calculate the start and end dates for the last week
 end_date = datetime.now()  # Current date
@@ -43,13 +43,13 @@ for symbol in sp500_symbols:
         print(f"Error fetching data for {symbol_to_fetch}: {e}")
 
 # Pickle the DataFrame
-weekly_sp500_data.to_pickle('weekly_sp500_data.pkl')
+weekly_sp500_data.to_pickle('./pickle/weekly_sp500_data.pkl')
 
 # Save DataFrame to a CSV file with proper headers for each stock
 file_name = f"sp500_weekly_data_{start_date_str}_{end_date_str}.csv"
 
 # Define the directory path where you want to save the file
-directory = '/Users/lilygoncharov/Documents/Z/data'
+directory = './data'
 
 # Specify the file path within the directory
 file_name = os.path.join(directory, f"sp500_weekly_data_{start_date_str}_{end_date_str}.csv")

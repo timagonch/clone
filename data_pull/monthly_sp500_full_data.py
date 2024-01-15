@@ -11,7 +11,7 @@ symbol_mapping = {
 }
 
 # Import the DataFrame from sp500_symbols pickle file
-sp500_symbols = pd.read_pickle('sp500_symbols.pkl')
+sp500_symbols = pd.read_pickle('./pickle/sp500_symbols.pkl')
 
 # Calculate the start and end dates for the last month
 end_date = datetime.now()  # Current date
@@ -43,13 +43,14 @@ for symbol in sp500_symbols:
         print(f"Error fetching data for {symbol_to_fetch}: {e}")
 
 # Pickle the DataFrame
-monthly_sp500_data.to_pickle('monthly_sp500_full_data.pkl')
+monthly_sp500_data.to_pickle('./pickle/monthly_sp500_full_data.pkl')
 
 # Save DataFrame to a CSV file with proper headers for each stock
 file_name = f"sp500_monthly_data_{start_date_str}_{end_date_str}.csv"
 
 # Define the directory path where you want to save the file
-directory = '/Users/lilygoncharov/Documents/Z/data'
+
+directory = './data'
 
 # Specify the file path within the directory
 file_name = os.path.join(directory, f"sp500_monthly_full_data_{start_date_str}_{end_date_str}.csv")

@@ -5,7 +5,7 @@ import pickle
 import ta
 
 # Import the DataFrame from fetch_data.py
-df = pd.read_pickle('/Users/lilygoncharov/Documents/Z/code/AI-Trading/data_processing/df_long.pkl')
+df = pd.read_pickle('./pickle/df_long.pkl')
 
 # Calculate Daily Price Spread (Candlestick Range)
 df['Spread'] = df['High'] - df['Low']
@@ -49,4 +49,4 @@ df['MACD_Signal'] = macd.macd_signal()
 df['MACD_Diff'] = macd.macd_diff()
 
 # Pickle the DataFrame
-df.to_pickle('/Users/lilygoncharov/Documents/Z/code/AI-Trading/data_processing/df_with_indicators.pkl')
+df.to_pickle('./pickle/df_with_indicators.pkl')
