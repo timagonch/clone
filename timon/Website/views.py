@@ -4,7 +4,7 @@ import pandas as pd
 
 import sys
 sys.path.append('./reports')
-from winner_looser import max_increase_stock, min_decrease_stock, max_increase_percentage, min_decrease_percentage
+from reports.winner_looser import max_increase_stock, min_decrease_stock, max_increase_percentage, min_decrease_percentage
 
 
 views_bp = Blueprint(__name__, "views")

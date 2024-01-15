@@ -3,6 +3,7 @@ import pandas as pd
 # Import the DataFrame
 sp500_data  = pd.read_pickle('./pickle/weekly_sp500_data.pkl')
 
+
 ### Winner ###
 # Calculate the percentage change for each stock over the week
 percentage_change = (sp500_data.iloc[-1] - sp500_data.iloc[0]) / sp500_data.iloc[0] * 100
