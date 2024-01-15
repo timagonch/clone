@@ -9,6 +9,14 @@
     <div><h1>The stock with highest monthy increase: {{ stock1 }} at {{ change1 }}
     <br> The stock with highest monthy decrease: {{ stock2 }} at {{ change2 }}
     </h1>
-    <img src="data:image/png;base64,{{ plot_url }}" alt="Box Plot">
+    <form>
+        <label for="dropdown">Select an option:</label>
+        <select id="dropdown" name="dropdown">
+            {% for option in dropdown_data %}
+                <option value="{{ option }}">{{ option }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Submit">
+    </form>
 </body>
 </html>
