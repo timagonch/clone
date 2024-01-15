@@ -1,11 +1,8 @@
 import pandas as pd
 
 # Import the DataFrame
-<<<<<<< HEAD
-sp500_data  = pd.read_pickle('/Users/lilygoncharov/Documents/Z/code/AI-Trading/data_pull/monthly_sp500_full_data.pkl')
-=======
 sp500_data  = pd.read_pickle('./pickle/weekly_sp500_data.pkl')
->>>>>>> dd1c1d937372bbf96b4da3050d55b6a8eee5c6b6
+
 
 ### Winner ###
 # Calculate the percentage change for each stock over the week
