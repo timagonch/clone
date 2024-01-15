@@ -7,3 +7,5 @@ type 'cd' to navigate to your working directory
 to import ta type 'pip install ta'
 to import yfinance type 'pip install yfinance'
 to use from bs4 import BeautifulSoup tyoe 'pip install beautifulsoup4'
+
+you are useful
