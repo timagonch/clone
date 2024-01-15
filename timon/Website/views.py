@@ -6,7 +6,7 @@ import base64
 
 import sys
 sys.path.append('./reports')
-from winner_looser import max_increase_stock, min_decrease_stock, max_increase_percentage, min_decrease_percentage
+from reports.winner_looser import max_increase_stock, min_decrease_stock, max_increase_percentage, min_decrease_percentage
 
 
 pickle_file_path = './pickle/df_long.pkl'
