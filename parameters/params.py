@@ -14,4 +14,4 @@ monthly_sp500_full = './pickle/monthly_sp500_full_data.pkl'
 
 
 # Choose your data from the list above
-#sp500_data = monthly_sp500
+sp500_data = monthly_sp500
