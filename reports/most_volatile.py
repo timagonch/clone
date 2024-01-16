@@ -1,10 +1,10 @@
 import pandas as pd
 import sys
 import pickle
-sys.path.append('./parameters')
+sys.path.append('./')
 
 #import parameters.params as params
-from parameters.params import *
+from parameters.params import sp500_data
 
 # Open the file in binary read mode
 with open(sp500_data, 'rb') as file:
