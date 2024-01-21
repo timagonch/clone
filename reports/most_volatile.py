@@ -1,11 +1,18 @@
 import pandas as pd
-import parameters.params as params
+import sys
+import pickle
+sys.path.append('./')
 
-# Import the DataFrame from fetch_data.py
-sp500_data = params.sp500_data
+#import parameters.params as params
+from parameters.params import sp500_data
+
+# Open the file in binary read mode
+with open(sp500_data, 'rb') as file:
+    # Load the contents from the file and de-serialize it
+    data = pickle.load(file)
 
 # Calculate daily percentage changes for each stock
-daily_percentage_changes = sp500_data.pct_change().dropna()
+daily_percentage_changes = data.pct_change().dropna()
 
 # Calculate the standard deviation of daily percentage changes for the last week
 volatility_last_week = daily_percentage_changes.std() * 100
