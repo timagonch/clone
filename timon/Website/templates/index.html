@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>AI-Goncharov's</title>
 </head>
 <body>
     <div><h1>The stock with highest monthy increase: {{ stock1 }} at {{ change1 }}
     <br> The stock with highest monthy decrease: {{ stock2 }} at {{ change2 }}
     </h1>
-    <form>
+    <form method="POST" action="/">
         <label for="dropdown">Select an option:</label>
         <select id="dropdown" name="dropdown">
             {% for option in dropdown_data %}
