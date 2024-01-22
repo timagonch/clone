@@ -6,10 +6,8 @@
     <title>Line Chart Example</title>
 </head>
 <body>
-    <h1>Line Chart Example</h1>
-    <!-- Display the line chart using an img tag -->
-    <img src="data:image/png;base64,{{ graph_data }}" alt="Line Graph">
     <h2>Graph for {{ selected_option }}</h2>
     <a href="/">Go back to the dropdown menu</a>
+    {{ graph_data | safe }}
 </body>
 </html>
