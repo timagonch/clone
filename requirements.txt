@@ -1,0 +1,12 @@
+Flask
+plotly
+pandas
+numpy
+alpaca-py
+alpaca_trade_api
+lumibot
+matplotlib
+pandas-datareader
+quantstats
+requests
+yfinance
