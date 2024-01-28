@@ -99,7 +99,7 @@ from parse import Parse
 
 Parse.initialize(
     "2f0c8e56-081e-477e-8b44-e455ad8aed8b",
-    "https://clone-gpzo2ob6.b4a.run/",
+    "https://clone-gpzo2ob6.b4a.run",
     "20vKMcCsM896RqdfTwl4PElekqbwErio7fRS74VQ"
 )
 
@@ -111,3 +111,4 @@ def hello():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
