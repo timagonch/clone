@@ -11,4 +11,4 @@ COPY . /clone
 RUN pip install -r requirements.txt
 
 # Define the entry point for the container
-CMD ["flask", "run", "--host=0.0.0.0"]
+CMD ["flask", "stock_charts", "--host=0.0.0.0"]

@@ -16,9 +16,6 @@ Parse.initialize(
     "20vKMcCsM896RqdfTwl4PElekqbwErio7fRS74VQ"
 )
 
-import sys
-print(sys.path)
-
 #initialize the app
 app = Flask(__name__)
 
