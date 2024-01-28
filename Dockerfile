@@ -10,5 +10,7 @@ COPY . /
 # Install the application dependencies
 RUN pip install -r requirements.txt
 
+EXPOSE 5000
+
 # Define the entry point for the container
 CMD ["python", "app.py"]
