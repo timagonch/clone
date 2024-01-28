@@ -1,5 +1,5 @@
 #firts install flask with pip install Flask, plotly with pip install plotly, pandas with pip install pandas
-'''
+
 from flask import Blueprint, render_template, request, redirect, url_for, Flask
 import pandas as pd
 from matplotlib.figure import Figure
@@ -8,17 +8,9 @@ from io import BytesIO
 import base64
 import numpy as np
 import pickle
-from parse import Parse
-
-Parse.initialize(
-    "2f0c8e56-081e-477e-8b44-e455ad8aed8b",
-    "https://clone-gpzo2ob6.b4a.run/",
-    "20vKMcCsM896RqdfTwl4PElekqbwErio7fRS74VQ"
-)
 
 #initialize the app
 app = Flask(__name__)
-
 
 import sys
 sys.path.append('./')
@@ -86,28 +78,6 @@ def generate_graph1(pick):
     plot_url = base64.b64encode(img.getvalue()).decode()
     
     return f'<img src="data:image/png;base64,{plot_url}" alt="Line Graph">'
-   
-   
-
-#automatically reload the app when code changes
-if __name__ == '__main__':
-    app.run(debug=False, host='0.0.0.0')
-    '''
-    
-from flask import Flask
-
-'''
-back4app.initialize(
-    "2f0c8e56-081e-477e-8b44-e455ad8aed8b",
-    "https://clone-gpzo2ob6.b4a.run",
-    "20vKMcCsM896RqdfTwl4PElekqbwErio7fRS74VQ"
-)
-'''
-app = Flask(__name__)
-
-@app.route('/')
-def hello():
-    return 'Hello, guys!'
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0', port=8080")
