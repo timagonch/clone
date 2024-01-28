@@ -1,5 +1,5 @@
 #firts install flask with pip install Flask, plotly with pip install plotly, pandas with pip install pandas
-
+'''
 from flask import Blueprint, render_template, request, redirect, url_for, Flask
 import pandas as pd
 from matplotlib.figure import Figure
@@ -18,6 +18,7 @@ Parse.initialize(
 
 #initialize the app
 app = Flask(__name__)
+
 
 import sys
 sys.path.append('./')
@@ -91,3 +92,15 @@ def generate_graph1(pick):
 #automatically reload the app when code changes
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0')
+    '''
+    
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/')
+def hello():
+    return 'Hello, guys!'
+
+if __name__ == '__main__':
+    app.run(debug=True)
