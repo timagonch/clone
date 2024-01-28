@@ -1,1 +1,1 @@
-web: python stock_charts:app
+web: python app:app
