@@ -8,6 +8,16 @@ from io import BytesIO
 import base64
 import numpy as np
 import pickle
+from parse import Parse
+
+Parse.initialize(
+    "2f0c8e56-081e-477e-8b44-e455ad8aed8b",
+    "https://clone-gpzo2ob6.b4a.run/",
+    "20vKMcCsM896RqdfTwl4PElekqbwErio7fRS74VQ"
+)
+
+import sys
+print(sys.path)
 
 #initialize the app
 app = Flask(__name__)
@@ -79,8 +89,8 @@ def generate_graph1(pick):
     
     return f'<img src="data:image/png;base64,{plot_url}" alt="Line Graph">'
    
-    
+   
 
 #automatically reload the app when code changes
 if __name__ == '__main__':
-    app.run(debug=True, port=8000)
+    app.run(debug=False, host='0.0.0.0')
