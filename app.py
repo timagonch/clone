@@ -95,14 +95,14 @@ if __name__ == '__main__':
     '''
     
 from flask import Flask
-from parse import Parse
 
-Parse.initialize(
+'''
+back4app.initialize(
     "2f0c8e56-081e-477e-8b44-e455ad8aed8b",
     "https://clone-gpzo2ob6.b4a.run",
     "20vKMcCsM896RqdfTwl4PElekqbwErio7fRS74VQ"
 )
-
+'''
 app = Flask(__name__)
 
 @app.route('/')
@@ -110,5 +110,5 @@ def hello():
     return 'Hello, guys!'
 
 if __name__ == '__main__':
-    app.run(debug=True, host="0.0.0.0', port=5000")
+    app.run(host="0.0.0.0', port=8080")
 

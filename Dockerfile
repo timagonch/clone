@@ -1,16 +1,18 @@
-# Use the official Python image as the base image
-FROM python:3.8
+# Base Image
+FROM python:3.9-slim
 
-# Set the working directory in the container
-WORKDIR /
+# Work directory
+WORKDIR /app
 
-# Copy the application files into the working directory
-COPY . /
-
-# Install the application dependencies
+# Copy requirements and install dependencies
+COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
-EXPOSE 5000
+# Copy other project files
+COPY . .
 
-# Define the entry point for the container
-CMD ["python", "app.py"]
+# Expose a port to Containers 
+EXPOSE 8080
+
+# Command to run on server
+CMD ["gunicorn", "-b", "0.0.0.0:8080", "app:app"]
