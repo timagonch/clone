@@ -8,6 +8,7 @@ from io import BytesIO
 import base64
 import numpy as np
 import pickle
+from datetime import datetime 
 
 #initialize the app
 app = Flask(__name__)
@@ -21,7 +22,9 @@ with open('./pickle/df_long.pkl', 'rb') as file:
     df_all = pickle.load(file)
     stocks = df_all['Stock'].unique()
     # Find the yearliest date in the data
-    last_update = df_all['Date'].max()
+    update = df_all['Date'].max()
+    last_update = update.strftime("%m/%d/%Y")
+    
 
 
 @app.route("/", methods=["GET", "POST"])
