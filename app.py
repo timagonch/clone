@@ -16,6 +16,11 @@ import sys
 sys.path.append('./')
 from reports.winner_looser import max_increase_stock, min_decrease_stock, max_increase_percentage, min_decrease_percentage
 
+# Get a list of all 500 stocks
+with open('./pickle/df_long.pkl', 'rb') as file:
+    df_all = pickle.load(file)
+    stocks = df_all['Stock'].unique()
+
 
 @app.route("/", methods=["GET", "POST"])
 def home():
@@ -23,11 +28,9 @@ def home():
         selected_option = request.form.get('dropdown')
     
         return redirect(url_for('display_graph', selected_option=selected_option))
-        #return f'you have selected {selected_option}'
+       
       
-   
-    
-      data_for_dropdown = [f'{max_increase_stock}', 'Option 2', 'Option 3']
+      data_for_dropdown = [stocks[i] for i in range(0, len(stocks))]
 
       return render_template("index.html", stock1=max_increase_stock, stock2=min_decrease_stock, 
                            change1=f'{max_increase_percentage:.2f}%', change2=f'{min_decrease_percentage:.2f}%',
@@ -37,27 +40,25 @@ def home():
 def display_graph():
     
     selected_option = request.args.get('selected_option', None)
-    if selected_option == f'{max_increase_stock}':
-        graph_data = generate_graph1(selected_option)
-        return render_template('graph1.html', selected_option=selected_option, graph_data=graph_data)
+    #if selected_option == f'{selected_option}':
+    graph_data = generate_graph1(selected_option)
+    return render_template('graph1.html', selected_option=selected_option, graph_data=graph_data)
     #else:
        # return f'you have not selected {selected_option}'
 
-    return redirect(url_for('generate_graph', selected_option=selected_option, graph_data=graph_data))
+    #return redirect(url_for('generate_graph', selected_option=selected_option, graph_data=graph_data))
 
     
 
 def generate_graph1(pick):
     
-    selected_option = request.args.get('selected_option', None)
+    #selected_option = request.args.get('selected_option', None)
     with open('./pickle/df_long.pkl', 'rb') as file:
         df = pickle.load(file)
     df = df[df['Stock'] == pick]
     
     fig, ax = plt.subplots()
     # Plot lines for each category (High, Low, Middle)
-    ax.plot(df['Date'], df['High'], label='High', marker='o')
-    ax.plot(df['Date'], df['Low'], label='Low', marker='o')
     ax.plot(df['Date'], df['Close'], label='Close', marker='o')
 
     # Add labels and title
