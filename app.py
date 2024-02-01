@@ -20,6 +20,8 @@ from reports.winner_looser import max_increase_stock, min_decrease_stock, max_in
 with open('./pickle/df_long.pkl', 'rb') as file:
     df_all = pickle.load(file)
     stocks = df_all['Stock'].unique()
+    # Find the yearliest date in the data
+    last_update = df_all['Date'].max()
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -34,7 +36,7 @@ def home():
 
       return render_template("index.html", stock1=max_increase_stock, stock2=min_decrease_stock, 
                            change1=f'{max_increase_percentage:.2f}%', change2=f'{min_decrease_percentage:.2f}%',
-                           dropdown_data=data_for_dropdown)
+                           dropdown_data=data_for_dropdown, last_update=last_update)
 
 @app.route('/display_graph', methods=["GET", "POST"])
 def display_graph():
@@ -42,7 +44,7 @@ def display_graph():
     selected_option = request.args.get('selected_option', None)
     #if selected_option == f'{selected_option}':
     graph_data = generate_graph1(selected_option)
-    return render_template('graph1.html', selected_option=selected_option, graph_data=graph_data)
+    return render_template('graph1.html', selected_option=selected_option, graph_data=graph_data, last_update=last_update)
     #else:
        # return f'you have not selected {selected_option}'
 

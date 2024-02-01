@@ -6,7 +6,8 @@
     <title>Line Chart Example</title>
 </head>
 <body>
-    <h2>Graph for {{ selected_option }}</h2>
+    <h1>Graph for {{ selected_option }}</h1>
+    <h2>Last updated: {{ last_updated }}</h2>
     <a href="/">Go back to the dropdown menu</a>
     {{ graph_data | safe }}
 </body>
