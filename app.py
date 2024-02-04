@@ -48,11 +48,7 @@ def display_graph():
     #if selected_option == f'{selected_option}':
     graph_data = generate_graph1(selected_option)
     return render_template('graph1.html', selected_option=selected_option, graph_data=graph_data, last_update=last_update)
-    #else:
-       # return f'you have not selected {selected_option}'
-
-    #return redirect(url_for('generate_graph', selected_option=selected_option, graph_data=graph_data))
-
+ 
     
 
 def generate_graph1(pick):
@@ -61,29 +57,39 @@ def generate_graph1(pick):
     with open('./pickle/df_long.pkl', 'rb') as file:
         df = pickle.load(file)
     df = df[df['Stock'] == pick]
-    
+
     fig, ax = plt.subplots()
-    # Plot lines for each category (High, Low, Middle)
-    ax.plot(df['Date'], df['Close'], label='Close', marker='o')
 
-    # Add labels and title
-    ax.set_xlabel('Date')
-    ax.set_ylabel('Price')
-    ax.set_title(f'Stock: {pick} Price Change Over a Month')
+    # Plot lines with custom styling
+    ax.plot(df['Date'], df['Close'], label='Close', linestyle='-', color='blue', marker='o', markersize=8, linewidth=2)
 
-    # Add legend
-    ax.legend()
+    # Customize background and grid
+    ax.grid(True)
+    ax.set_facecolor('#f0f0f0')  # Set a light gray background color
+
+    # Customize title and labels
+    ax.set_xlabel('Date', fontsize=10)
+    ax.set_ylabel('Price', fontsize=10)
+    ax.set_title(f'Stock Price Change Over a Month - {pick}', fontsize=20, fontweight='bold')
+
+    # Customize legend
+    ax.legend(loc='upper left', fontsize=10)
 
     # Rotate x-axis labels for better readability
     plt.xticks(rotation=45, ha='right')
+
+    # Adjust figure size
+    fig.set_size_inches(10, 8)
+    plt.tight_layout()
 
     # Save the plot to a BytesIO object
     img = BytesIO()
     plt.savefig(img, format='png')
     img.seek(0)
     plot_url = base64.b64encode(img.getvalue()).decode()
-    
+
     return f'<img src="data:image/png;base64,{plot_url}" alt="Line Graph">'
+
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0', port=8080")
