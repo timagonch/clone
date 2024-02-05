@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Goncharov Investments{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <video autoplay muted>
+            <source src="{{ url_for('static', filename='banner.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <!-- Other header content goes here -->
+    </header>   
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+    <div id="footer">
+        <!-- Your footer content here -->
+    </div>
+</body>
+</html>

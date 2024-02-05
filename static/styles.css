@@ -1,0 +1,21 @@
+/* styles.css */
+body {
+    background-color: black;
+    color: white;
+}
+
+header {
+    position: relative;
+    height: 38vh; /* Adjust the height as needed */
+    overflow: hidden;
+}
+
+video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
