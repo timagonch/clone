@@ -1,3 +1,4 @@
+# run 'pip3 install -r ./requirements.txt' from command line to import all packages
 Flask==3.0.0
 gunicorn==20.1.0
 appdirs==1.4.4
