@@ -36,8 +36,10 @@ def home():
        
       
       data_for_dropdown = [stocks[i] for i in range(0, len(stocks))]
+      graph1= generate_graph1(max_increase_stock,6,4)
+      graph2= generate_graph1(min_decrease_stock,6,4)
 
-      return render_template("index.html", stock1=max_increase_stock, stock2=min_decrease_stock, 
+      return render_template("index.html", graph1=graph1, graph2=graph2,stock1=max_increase_stock, stock2=min_decrease_stock, 
                            change1=f'{max_increase_percentage:.2f}%', change2=f'{min_decrease_percentage:.2f}%',
                            dropdown_data=data_for_dropdown, last_update=last_update)
 
@@ -46,12 +48,12 @@ def display_graph():
     
     selected_option = request.args.get('selected_option', None)
     #if selected_option == f'{selected_option}':
-    graph_data = generate_graph1(selected_option)
+    graph_data = generate_graph1(selected_option,10,8)
     return render_template('graph1.html', selected_option=selected_option, graph_data=graph_data, last_update=last_update)
  
     
 
-def generate_graph1(pick):
+def generate_graph1(pick, h,w):
     
     #selected_option = request.args.get('selected_option', None)
     with open('./pickle/df_long.pkl', 'rb') as file:
@@ -70,16 +72,21 @@ def generate_graph1(pick):
     # Customize title and labels
     ax.set_xlabel('Date', fontsize=10)
     ax.set_ylabel('Price', fontsize=10)
-    ax.set_title(f'Stock Price Change Over a Month - {pick}', fontsize=20, fontweight='bold')
+    ax.set_title(f'Price of - {pick}', fontsize=20, fontweight='bold')
 
     # Customize legend
     ax.legend(loc='upper left', fontsize=10)
 
     # Rotate x-axis labels for better readability
     plt.xticks(rotation=45, ha='right')
+    
+    # Creating a secondary y-axis for volume
+    ax2 = ax.twinx()
+    ax2.bar(df['Date'], df['Volume'], color='gray', alpha=0.3)
+    ax2.set_ylabel('Volume')
 
     # Adjust figure size
-    fig.set_size_inches(10, 8)
+    fig.set_size_inches(h, w)
     plt.tight_layout()
 
     # Save the plot to a BytesIO object
