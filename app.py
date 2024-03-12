@@ -9,6 +9,7 @@ import base64
 import numpy as np
 import pickle
 from datetime import datetime 
+import os
 
 #initialize the app
 app = Flask(__name__)
@@ -130,5 +131,10 @@ def generate_graph1(pick, h,w):
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0', port=8080")
+    #app.run(host="0.0.0.0', port=8080")
+    port = int(os.environ.get('PORT', 8080))
+    
+    is_prod = os.environ.get('RAILWAY_ENVIRONMENT_NAME') is not None
+    
+    [app.run](app.run)(host='0.0.0.0', port=port, debug=not is_prod)
 
