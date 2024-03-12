@@ -136,5 +136,5 @@ if __name__ == '__main__':
     
     is_prod = os.environ.get('RAILWAY_ENVIRONMENT_NAME') is not None
     
-    [app.run](app.run)(host='0.0.0.0', port=port, debug=not is_prod)
+    app.run(host='0.0.0.0', port=port, debug=not is_prod)
 
