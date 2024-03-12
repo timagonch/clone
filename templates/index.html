@@ -1,13 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Welcome to My Flask App</h1>
+    <h1>Welcome to Goncharov Investments</h1>
     <p>Last updated: {{ last_update }}.</p>
-    <div><h1>The stock with highest monthy increase: {{ stock1 }} at {{ change1 }}<br>
-        {{graph1 | safe}}
-        <br> The stock with highest monthy decrease: {{ stock2 }} at {{ change2 }} <br>
-        {{graph2 | safe}}
-        </h1></div>
         <form method="POST" action="/">
             <label for="dropdown">Select a Stock:</label>
             <select id="dropdown" name="dropdown">

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<head>
+    <title>Result</title>
+    <p>Last updated: {{ last_update }}.</p>
+</head>
+<body>
+    <h1>Result</h1>
+    {{result | safe}}
+</body>
+   
+    
+{% endblock %}
