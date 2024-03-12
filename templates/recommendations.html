@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>We Recommend These Stocks</h1>
+    <p>Last updated: {{ last_update }}.</p>
+    <body>
+        <h1>Enter Parameter</h1>
+        <form action="/process" method="post">
+            <label for="parameter1">Signal:</label>
+            <input type="text" id="parameter1" name="parameter1">
+            <br>
+            <label for="parameter2">Crossover Magnitude:</label>
+            <input type="text" id="parameter2" name="parameter2">
+            <button type="submit">Submit</button>
+        </form>
+    </body>
+{% endblock %}

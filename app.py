@@ -36,12 +36,25 @@ def home():
        
       
       data_for_dropdown = [stocks[i] for i in range(0, len(stocks))]
-      graph1= generate_graph1(max_increase_stock,6,4)
-      graph2= generate_graph1(min_decrease_stock,6,4)
+    
+      return render_template("index.html", dropdown_data=data_for_dropdown,last_update=last_update)
+      
+      
+@app.route('/winners_losers')
+def winners_losers():
+    graph1= generate_graph1(max_increase_stock,6,4)
+    graph2= generate_graph1(min_decrease_stock,6,4)
+    return render_template('winners_losers.html', graph1=graph1, graph2=graph2,stock1=max_increase_stock, stock2=min_decrease_stock, 
+                           change1=f'{max_increase_percentage:.2f}%', change2=f'{min_decrease_percentage:.2f}%', last_update=last_update)
 
-      return render_template("index.html", graph1=graph1, graph2=graph2,stock1=max_increase_stock, stock2=min_decrease_stock, 
-                           change1=f'{max_increase_percentage:.2f}%', change2=f'{min_decrease_percentage:.2f}%',
-                           dropdown_data=data_for_dropdown, last_update=last_update)
+@app.route('/recommendations')
+def recommendations():
+    return render_template('recommendations.html', last_update=last_update)
+
+@app.route('/about_us')
+def about_us():
+    return render_template('about_us.html')      
+
 
 @app.route('/display_graph', methods=["GET", "POST"])
 def display_graph():
@@ -51,7 +64,25 @@ def display_graph():
     graph_data = generate_graph1(selected_option,10,8)
     return render_template('graph1.html', selected_option=selected_option, graph_data=graph_data, last_update=last_update)
  
+@app.route('/process', methods=['POST'])
+def process():
+    parameter1 = int(request.form['parameter1'])
+    parameter2 = float(request.form['parameter2'])
     
+    # Process the input parameters and generate results
+    table = process_parameters(parameter1, parameter2)
+    
+    return render_template('result.html', result=table,last_update=last_update)
+
+with open('./pickle/sorted_top_recommendations.pkl', 'rb') as file:
+    df_recom = pickle.load(file)
+
+def process_parameters(parameter1, parameter2):
+    # Example: Combine both parameters and return as a single string
+    #if parameter1 == df_recom['Signal'] and parameter2 == df_recom['Crossover_Magnitude']: give me table with those columns
+    df_recom_new = df_recom[(df_recom['Signal'] == parameter1) & (df_recom['Crossover_Magnitude'] >= parameter2)]
+    result = df_recom_new.to_html()
+    return result
 
 def generate_graph1(pick, h,w):
     
