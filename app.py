@@ -85,25 +85,26 @@ with open('./pickle/df_long.pkl', 'rb') as file:
 @app.route("/", methods=["GET", "POST"])
 def home():
     if request.method == 'POST':
-        # When the button is pressed, fetch cryptocurrency data and insert into the database
-        cryptocurrency_data = fetch_cryptocurrency_data()
-        insert_cryptocurrency_data(cryptocurrency_data)
-        return redirect(url_for('home'))
-
-    # Render the home page with a button to fetch cryptocurrency data
-    return render_template("index.html")
-      
-'''
-      if request.method == 'POST':
         selected_option = request.form.get('dropdown')
     
         return redirect(url_for('display_graph', selected_option=selected_option))
        
       
-      data_for_dropdown = [stocks[i] for i in range(0, len(stocks))]
+    data_for_dropdown = [stocks[i] for i in range(0, len(stocks))]
     
-      return render_template("index.html", dropdown_data=data_for_dropdown,last_update=last_update)
-     ''' 
+    return render_template("index.html", dropdown_data=data_for_dropdown,last_update=last_update)
+     
+@app.route("/data_send", methods=["GET", "POST"])
+def data_send():
+    if request.method == 'POST':
+        # When the button is pressed, fetch cryptocurrency data and insert into the database
+        cryptocurrency_data = fetch_cryptocurrency_data()
+        insert_cryptocurrency_data(cryptocurrency_data)
+       # return redirect(url_for('data_send'))
+
+    # Render the home page with a button to fetch cryptocurrency data
+    return render_template("data_send.html")
+      
       
 @app.route('/winners_losers')
 def winners_losers():
