@@ -10,11 +10,65 @@ import numpy as np
 import pickle
 from datetime import datetime 
 import os
+import psycopg2
+import sys
+
 
 #initialize the app
 app = Flask(__name__)
 
-import sys
+# Database configuration
+DB_HOST = os.getenv('DB_HOST', 'roundhouse.proxy.rlwy.net')
+DB_PORT = os.getenv('DB_PORT', '20290')
+DB_NAME = os.getenv('DB_NAME', 'railway')
+DB_USER = os.getenv('DB_USER', 'postgres')
+DB_PASSWORD = os.getenv('DB_PASSWORD', 'gAGnyhsxJCbdQfsazMzNJXbtBKssbCeM')
+
+# Function to fetch cryptocurrency data
+def fetch_cryptocurrency_data():
+    # Load the DataFrame from the pickle file
+    df = pd.read_pickle('./data/crypto_coins_list_data.pkl')
+    
+    # Select only the 'Name' and 'Delta' columns
+    df_selected = df[['name', 'cap']]
+    
+    # Convert DataFrame to list of dictionaries
+    cryptocurrency_data = df_selected.to_dict('records')
+    
+    return cryptocurrency_data
+
+# Connect to the database
+conn = psycopg2.connect(
+    dbname=DB_NAME,
+    user=DB_USER,
+    password=DB_PASSWORD,
+    host=DB_HOST,
+    port=DB_PORT
+)
+
+# Create a cursor
+cursor = conn.cursor()
+
+# Define a route to insert data
+@app.route('/insert_cryptocurrency_data')
+def insert_cryptocurrency_data(cryptocurrency_data):
+    # Fetch cryptocurrency data
+    cryptocurrency_data = fetch_cryptocurrency_data()
+
+    # Iterate over cryptocurrency data and insert into database
+    for crypto in cryptocurrency_data:
+        cursor.execute("INSERT INTO cryptocurrency (name, cap) VALUES (%s, %s)",
+                       (crypto['name'], crypto['cap']))
+    
+    # Commit the transaction
+    conn.commit()
+     # Close the connection
+    cursor.close()
+    conn.close()
+
+    return 'Cryptocurrency data inserted successfully'
+
+
 sys.path.append('./')
 from reports.winner_looser import max_increase_stock, min_decrease_stock, max_increase_percentage, min_decrease_percentage
 
@@ -30,6 +84,16 @@ with open('./pickle/df_long.pkl', 'rb') as file:
 
 @app.route("/", methods=["GET", "POST"])
 def home():
+    if request.method == 'POST':
+        # When the button is pressed, fetch cryptocurrency data and insert into the database
+        cryptocurrency_data = fetch_cryptocurrency_data()
+        insert_cryptocurrency_data(cryptocurrency_data)
+        return redirect(url_for('home'))
+
+    # Render the home page with a button to fetch cryptocurrency data
+    return render_template("index.html")
+      
+'''
       if request.method == 'POST':
         selected_option = request.form.get('dropdown')
     
@@ -39,7 +103,7 @@ def home():
       data_for_dropdown = [stocks[i] for i in range(0, len(stocks))]
     
       return render_template("index.html", dropdown_data=data_for_dropdown,last_update=last_update)
-      
+     ''' 
       
 @app.route('/winners_losers')
 def winners_losers():
@@ -131,6 +195,6 @@ def generate_graph1(pick, h,w):
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0', port=8080")
+    app.run(host="0.0.0.0", port=8080)
     
 

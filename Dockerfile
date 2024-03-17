@@ -1,6 +1,13 @@
 # Base Image
 FROM python:3.12-slim
 
+# Set environment variables for PostgreSQL connection
+ENV DB_PORT=20290
+ENV DB_HOST=roundhouse.proxy.rlwy.net
+ENV DB_NAME=railway
+ENV DB_USER=your_postgres
+ENV DB_PASSWORD=gAGnyhsxJCbdQfsazMzNJXbtBKssbCeM
+
 # Work directory
 WORKDIR /app
 

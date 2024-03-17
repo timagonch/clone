@@ -51,3 +51,4 @@ webencodings==0.5.1
 Werkzeug==3.0.1
 wheel==0.42.0
 yfinance==0.2.35
+psycopg2-binary==2.9.9
