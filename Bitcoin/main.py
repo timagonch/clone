@@ -75,23 +75,26 @@ html_template = """
 </html>
 """
 
-# Serve the main dashboard page
-@app.route('/')
-def index():
-    return render_template_string(html_template)
+# Debugging helper function
+def print_debug_info(label, data):
+    print(f"--- {label} Data ---")
+    if data is None:
+        print(f"{label}: No data returned.")
+    else:
+        print(f"{label} head:\n", data.head())
 
 # Moving Averages Endpoint
 @app.route('/moving_averages')
 def moving_averages():
     try:
         historical_data = get_historical_data(30)
-        if historical_data is None:
-            return jsonify({"message": "No data available for moving averages."})
+        print_debug_info("Moving Averages Raw", historical_data)
+
+        if historical_data is None or len(historical_data) < 7:  # Rolling window of 7 requires at least 7 data points
+            return jsonify({"message": "Not enough data for moving averages."})
         
         historical_data = add_moving_averages(historical_data)
-        
-        # Log the data for debugging
-        print("Data for moving averages:", historical_data.head())
+        print_debug_info("Moving Averages Calculated", historical_data)
 
         # Create Plotly chart for Moving Averages
         fig = px.line(historical_data, x="timestamp", y=["price", "MA7", "MA30"], 
@@ -107,13 +110,13 @@ def moving_averages():
 def rsi():
     try:
         historical_data = get_historical_data(30)
-        if historical_data is None:
-            return jsonify({"message": "No data available for RSI."})
-        
+        print_debug_info("RSI Raw", historical_data)
+
+        if historical_data is None or len(historical_data) < 14:  # Rolling window of 14 requires at least 14 data points
+            return jsonify({"message": "Not enough data for RSI."})
+
         historical_data = calculate_rsi(historical_data)
-        
-        # Log the data for debugging
-        print("Data for RSI:", historical_data.head())
+        print_debug_info("RSI Calculated", historical_data)
 
         # Create Plotly chart for RSI
         fig = px.line(historical_data, x="timestamp", y="RSI", 
@@ -129,13 +132,13 @@ def rsi():
 def volatility():
     try:
         historical_data = get_historical_data(30)
-        if historical_data is None:
-            return jsonify({"message": "No data available for volatility."})
-        
+        print_debug_info("Volatility Raw", historical_data)
+
+        if historical_data is None or len(historical_data) < 7:  # Volatility calculation requires at least 7 data points
+            return jsonify({"message": "Not enough data for volatility."})
+
         historical_data = calculate_volatility(historical_data)
-        
-        # Log the data for debugging
-        print("Data for Volatility:", historical_data.head())
+        print_debug_info("Volatility Calculated", historical_data)
 
         # Create Plotly chart for Volatility
         fig = px.line(historical_data, x="timestamp", y="volatility", 
@@ -151,11 +154,13 @@ def volatility():
 def buy_sell():
     try:
         historical_data = get_historical_data(30)
+        print_debug_info("Buy/Sell Raw", historical_data)
+
         if historical_data is None:
             return jsonify({"message": "No data available for buy/sell suggestion."})
         
         historical_data = calculate_rsi(historical_data)
-        
+
         # Get the latest RSI value
         latest_rsi = historical_data['RSI'].iloc[-1]
         if latest_rsi < 30:
