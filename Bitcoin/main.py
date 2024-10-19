@@ -1,12 +1,11 @@
 from flask import Flask, render_template_string, jsonify
 import plotly.express as px
-import pandas as pd
-import numpy as np
-from datetime import datetime, timedelta
+from data_fetcher import get_historical_data
+from analysis import add_moving_averages, calculate_volatility, calculate_rsi
 
 app = Flask(__name__)
 
-# HTML template embedded directly in Python
+# HTML template directly embedded in Python
 html_template = """
 <!DOCTYPE html>
 <html lang="en">
@@ -76,33 +75,6 @@ html_template = """
 </html>
 """
 
-# Function to simulate fetching historical data (mock data for debugging)
-def get_mock_historical_data(days=30):
-    dates = [datetime.now() - timedelta(days=x) for x in range(days)]
-    prices = np.random.uniform(low=30000, high=70000, size=(days,))
-    
-    data = pd.DataFrame({
-        'timestamp': dates,
-        'price': prices
-    })
-    return data
-
-# Function to calculate moving averages
-def add_moving_averages(data):
-    data['MA7'] = data['price'].rolling(window=7).mean()
-    data['MA30'] = data['price'].rolling(window=30).mean()
-    return data
-
-# Function to calculate RSI (mock calculation)
-def calculate_rsi(data):
-    data['RSI'] = np.random.uniform(low=20, high=80, size=len(data))  # Random RSI for mock
-    return data
-
-# Function to calculate volatility (mock calculation)
-def calculate_volatility(data):
-    data['volatility'] = data['price'].pct_change().rolling(window=5).std() * 100  # Rolling volatility in %
-    return data
-
 # Serve the main dashboard page
 @app.route('/')
 def index():
@@ -112,7 +84,10 @@ def index():
 @app.route('/moving_averages')
 def moving_averages():
     try:
-        historical_data = get_mock_historical_data(30)
+        historical_data = get_historical_data(30)
+        if historical_data is None:
+            return jsonify({"message": "No data available for moving averages."})
+        
         historical_data = add_moving_averages(historical_data)
         
         # Log the data for debugging
@@ -131,7 +106,10 @@ def moving_averages():
 @app.route('/rsi')
 def rsi():
     try:
-        historical_data = get_mock_historical_data(30)
+        historical_data = get_historical_data(30)
+        if historical_data is None:
+            return jsonify({"message": "No data available for RSI."})
+        
         historical_data = calculate_rsi(historical_data)
         
         # Log the data for debugging
@@ -150,7 +128,10 @@ def rsi():
 @app.route('/volatility')
 def volatility():
     try:
-        historical_data = get_mock_historical_data(30)
+        historical_data = get_historical_data(30)
+        if historical_data is None:
+            return jsonify({"message": "No data available for volatility."})
+        
         historical_data = calculate_volatility(historical_data)
         
         # Log the data for debugging
@@ -169,7 +150,10 @@ def volatility():
 @app.route('/buy_sell')
 def buy_sell():
     try:
-        historical_data = get_mock_historical_data(30)
+        historical_data = get_historical_data(30)
+        if historical_data is None:
+            return jsonify({"message": "No data available for buy/sell suggestion."})
+        
         historical_data = calculate_rsi(historical_data)
         
         # Get the latest RSI value
