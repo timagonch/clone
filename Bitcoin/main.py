@@ -1,7 +1,6 @@
 from flask import Flask, render_template_string, jsonify
 import plotly.express as px
 from data_fetcher import get_historical_data
-from analysis import add_moving_averages, calculate_volatility, calculate_rsi
 import traceback  # For detailed error logging
 
 app = Flask(__name__)
@@ -45,10 +44,7 @@ html_template = """
 <body>
     <header>Bitcoin Analysis Dashboard</header>
 
-    <button onclick="fetchPlotData('moving_averages')">Moving Averages</button>
-    <button onclick="fetchPlotData('rsi')">RSI</button>
-    <button onclick="fetchPlotData('volatility')">Volatility</button>
-    <button onclick="fetchPlotData('buy_sell')">Buy/Sell Suggestion</button>
+    <button onclick="fetchPlotData('price')">Show Bitcoin Prices</button>
 
     <div id="plot"></div>
 
@@ -61,7 +57,7 @@ html_template = """
                     if (data.plot) {
                         Plotly.newPlot('plot', data.plot.data, data.plot.layout);
                     } else if (data.message) {
-                        alert(data.message);  // For buy/sell suggestion
+                        alert(data.message);  // For error messages
                     } else {
                         alert("No data available for this request.");
                     }
@@ -82,113 +78,27 @@ def log_error(label, error):
     print(error)
     print(traceback.format_exc())
 
-# Moving Averages Endpoint
-@app.route('/moving_averages')
-def moving_averages():
+# Basic Price Endpoint
+@app.route('/price')
+def price():
     try:
+        # Fetch historical data (30 days)
         historical_data = get_historical_data(30)
+        
         if historical_data is None:
-            return jsonify({"message": "No data available for moving averages."})
+            return jsonify({"message": "No data available for price plot."})
         
-        # Log the fetched data for debugging
-        print(f"Fetched Data for Moving Averages:\n{historical_data.head()}")
-        
-        # Check if there are enough rows to calculate moving averages
-        if len(historical_data) < 7:
-            print(f"Not enough data points for moving averages: {len(historical_data)} rows available.")
-            return jsonify({"message": "Not enough data for moving averages."})
-        
-        historical_data = add_moving_averages(historical_data)
-        print(f"Calculated Moving Averages Data:\n{historical_data[['timestamp', 'price', 'MA7', 'MA30']].head()}")
+        # Log the raw data
+        print(f"Fetched Data:\n{historical_data.head()}")
 
-        # Create Plotly chart for Moving Averages
-        fig = px.line(historical_data, x="timestamp", y=["price", "MA7", "MA30"], 
-                      labels={"value": "Price (USD)", "timestamp": "Date"}, 
-                      title="Bitcoin Price with Moving Averages")
+        # Create Plotly chart for the raw price data
+        fig = px.line(historical_data, x="timestamp", y="price", 
+                      labels={"price": "Price (USD)", "timestamp": "Date"}, 
+                      title="Bitcoin Price (Last 30 Days)")
         return jsonify(plot=fig.to_dict())
     except Exception as e:
-        log_error("Moving Averages", e)
-        return jsonify({"message": "Error generating moving averages plot."})
-
-# RSI Endpoint
-@app.route('/rsi')
-def rsi():
-    try:
-        historical_data = get_historical_data(30)
-        if historical_data is None:
-            return jsonify({"message": "No data available for RSI."})
-
-        # Log the fetched data for debugging
-        print(f"Fetched Data for RSI:\n{historical_data.head()}")
-        
-        # Check if there are enough rows to calculate RSI
-        if len(historical_data) < 14:
-            print(f"Not enough data points for RSI: {len(historical_data)} rows available.")
-            return jsonify({"message": "Not enough data for RSI."})
-
-        historical_data = calculate_rsi(historical_data)
-        print(f"Calculated RSI Data:\n{historical_data[['timestamp', 'price', 'RSI']].head()}")
-
-        # Create Plotly chart for RSI
-        fig = px.line(historical_data, x="timestamp", y="RSI", 
-                      labels={"RSI": "RSI", "timestamp": "Date"}, 
-                      title="Bitcoin Relative Strength Index (RSI)")
-        return jsonify(plot=fig.to_dict())
-    except Exception as e:
-        log_error("RSI", e)
-        return jsonify({"message": "Error generating RSI plot."})
-
-# Volatility Endpoint
-@app.route('/volatility')
-def volatility():
-    try:
-        historical_data = get_historical_data(30)
-        if historical_data is None:
-            return jsonify({"message": "No data available for volatility."})
-
-        # Log the fetched data for debugging
-        print(f"Fetched Data for Volatility:\n{historical_data.head()}")
-
-        # Check if there are enough rows to calculate volatility
-        if len(historical_data) < 7:
-            print(f"Not enough data points for volatility: {len(historical_data)} rows available.")
-            return jsonify({"message": "Not enough data for volatility."})
-
-        historical_data = calculate_volatility(historical_data)
-        print(f"Calculated Volatility Data:\n{historical_data[['timestamp', 'price', 'volatility']].head()}")
-
-        # Create Plotly chart for Volatility
-        fig = px.line(historical_data, x="timestamp", y="volatility", 
-                      labels={"volatility": "Volatility (%)", "timestamp": "Date"}, 
-                      title="Bitcoin Price Volatility")
-        return jsonify(plot=fig.to_dict())
-    except Exception as e:
-        log_error("Volatility", e)
-        return jsonify({"message": "Error generating volatility plot."})
-
-# Buy/Sell Suggestion Endpoint
-@app.route('/buy_sell')
-def buy_sell():
-    try:
-        historical_data = get_historical_data(30)
-        if historical_data is None:
-            return jsonify({"message": "No data available for buy/sell suggestion."})
-
-        historical_data = calculate_rsi(historical_data)
-
-        # Get the latest RSI value
-        latest_rsi = historical_data['RSI'].iloc[-1]
-        if latest_rsi < 30:
-            message = f"RSI is {latest_rsi:.2f}. Suggestion: BUY (RSI < 30)"
-        elif latest_rsi > 70:
-            message = f"RSI is {latest_rsi:.2f}. Suggestion: SELL (RSI > 70)"
-        else:
-            message = f"RSI is {latest_rsi:.2f}. Suggestion: HOLD"
-
-        return jsonify(message=message)
-    except Exception as e:
-        log_error("Buy/Sell", e)
-        return jsonify({"message": "Error generating buy/sell suggestion."})
+        log_error("Price Plot", e)
+        return jsonify({"message": "Error generating price plot."})
 
 if __name__ == "__main__":
     app.run(debug=True)
