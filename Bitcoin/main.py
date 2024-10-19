@@ -1,6 +1,8 @@
 # main.py
-from bitcoin.data_fetcher import get_historical_data
-from bitcoin.analysis import add_moving_averages, calculate_volatility, calculate_rsi
+
+# Import directly, since you're inside the same folder
+from data_fetcher import get_historical_data
+from analysis import add_moving_averages, calculate_volatility, calculate_rsi
 
 if __name__ == "__main__":
     # Fetch historical data (e.g., last 30 days)
